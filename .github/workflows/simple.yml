@@ -1,10 +1,11 @@
 name: CI
 
 on: [push]
+branches:
+- release/*
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     steps:
@@ -18,8 +19,7 @@ jobs:
         
   publish:
     runs-on: ubuntu-latest
-    branches:
-    - release/*
+    
     steps:
     - uses: actions/labeler@v2
       with:
