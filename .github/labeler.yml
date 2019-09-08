@@ -1,0 +1,7 @@
+fix-document:
+- README.md
+
+fix-workflow: .github/*.yml
+
+fix-code:
+- src/*
