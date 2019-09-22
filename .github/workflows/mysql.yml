@@ -67,7 +67,6 @@ jobs:
       working-directory: ./mysql
     - name: cli query test
       run: |
-        mysql -P${{ job.services.mysql.ports[3306] }} -umysql -pmysqlpass -e 'CREATE DATABASE sampledb;'
         mysql -P${{ job.services.mysql.ports[3306] }} -uroot -p'' -e 'CREATE DATABASE sampledb;'
       working-directory: ./mysql
     - run: npm start
