@@ -4,14 +4,21 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
-  user: 'mysql',
-  password: 'mysqlpass',
-  database: 'testdb'
+  user: 'root',
+  password: 'rootpass'
 });
+
+// create database
+connection.query(
+  'CREATE DATABASE `testdb`',
+  function(err, results) {
+    console.log(err, results); 
+  }
+);
 
 // create table
 connection.query(
-  'CREATE TABLE `testdb`.`user` (`id` int auto_increment, `name` varchar(10), `age` int)',
+  'CREATE TABLE `testdb`.`user` (`id` int primary key auto_increment, `name` varchar(10), `age` int)',
   function(err, results) {
     console.log(err, results); // results contains rows returned by server
   }
@@ -30,6 +37,6 @@ connection.query(
   'SELECT * FROM `testdb`.`user` WHERE `name` = "huga"',
   function(err, results, fields) {
     console.log(results); // results contains rows returned by server
-    console.log(fields); // fields contains extra meta data about results, if available
+    process.exit(0);
   }
 );
