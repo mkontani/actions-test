@@ -62,12 +62,12 @@ jobs:
         - 3306/tcp
 
     steps:
+#    - name: cli query test
+#      run: |
+#        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -p'rootpass' -h127.0.0.1 -e 'CREATE DATABASE sampledb;'
+#      working-directory: ./mysql
     - uses: actions/checkout@v1     
     - run: npm ci
-      working-directory: ./mysql
-    - name: cli query test
-      run: |
-        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -p'rootpass' -h127.0.0.1 -e 'CREATE DATABASE sampledb;'
       working-directory: ./mysql
     - run: npm start
       working-directory: ./mysql
