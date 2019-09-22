@@ -71,5 +71,5 @@ jobs:
       env:
         # use localhost for the host here because we have specified a container for the job.
         # If we were running the job on the VM this would be mysql
-        MYSQL_HOST: 127.0.0.1
+        MYSQL_HOST: localhost
         MYSQL_PORT: ${{ job.services.mysql.ports[3306] }} # get randomly assigned published port
