@@ -1,0 +1,74 @@
+name: MySQL Service Example
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    
+    # runs all of the steps inside the specified continer rather than on the VM host.  
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  node:10.16-jessie
+
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_USER: mysql
+          MYSQL_PASSWORD: mysqlpass
+          MYSQL_DATABASE: testdb
+          MYSQL_RANDOM_ROOT_PASSWORD: yes
+        ports:
+        - 3306:3306
+
+    steps:
+    - uses: actions/checkout@v1     
+    - run: npm ci
+      working-directory: ./mysql
+    - run: npm start
+      working-directory: ./mysql
+      env:
+        # use mysql for the host here because we have specified a container for the job.
+        # If we were running the job on the VM this would be localhost
+        MYSQL_HOST: mysql
+        MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+
+# Runs all steps on the VM
+# The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
+  vm-job:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_USER: mysql
+          MYSQL_PASSWORD: mysqlpass
+          MYSQL_DATABASE: testdb
+          MYSQL_RANDOM_ROOT_PASSWORD: yes
+        ports:
+        # will assign a random free host port
+        - 3306/tcp
+
+    steps:
+    - uses: actions/checkout@v1     
+    - run: npm ci
+      working-directory: ./mysql
+    - name: cli query test
+      run: |
+        mysql -P${{ job.services.mysql.ports[3306] }} -umysql -e 'CREATE DATABASE sampledb;'
+      working-directory: ./mysql
+    - run: npm start
+      working-directory: ./mysql
+      env:
+        # use localhost for the host here because we have specified a container for the job.
+        # If we were running the job on the VM this would be mysql
+        MYSQL_HOST: localhost
+        MYSQL_PORT: ${{ job.services.mysql.ports[3306] }} # get randomly assigned published port
