@@ -24,13 +24,17 @@ jobs:
           MYSQL_USER: mysql
           MYSQL_PASSWORD: mysqlpass
           MYSQL_DATABASE: testdb
-          MYSQL_RANDOM_ROOT_PASSWORD: yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
-        - 3306:3306
+        - 3306/tcp
 
     steps:
     - uses: actions/checkout@v1     
     - run: npm ci
+      working-directory: ./mysql
+    - name: cli query test
+      run: |
+        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -e 'CREATE DATABASE sampledb;'
       working-directory: ./mysql
     - run: npm start
       working-directory: ./mysql
@@ -52,7 +56,7 @@ jobs:
           MYSQL_USER: mysql
           MYSQL_PASSWORD: mysqlpass
           MYSQL_DATABASE: testdb
-          MYSQL_RANDOM_ROOT_PASSWORD: yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
         # will assign a random free host port
         - 3306/tcp
@@ -63,7 +67,7 @@ jobs:
       working-directory: ./mysql
     - name: cli query test
       run: |
-        mysql -P${{ job.services.mysql.ports[3306] }} -umysql -e 'CREATE DATABASE sampledb;'
+        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -e 'CREATE DATABASE sampledb;'
       working-directory: ./mysql
     - run: npm start
       working-directory: ./mysql
