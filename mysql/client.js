@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 
-// create the connection to database
-const connection = mysql.createConnection({
+// create the pool to database
+const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
   user: 'root',
@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
 });
 
 // create database
-connection.query(
+pool.query(
   'CREATE DATABASE `testdb`',
   function(err, results) {
     console.log(err, results); 
@@ -17,7 +17,7 @@ connection.query(
 );
 
 // create table
-connection.query(
+pool.query(
   'CREATE TABLE `testdb`.`user` (`id` int primary key auto_increment, `name` varchar(10), `age` int)',
   function(err, results) {
     console.log(err, results); // results contains rows returned by server
@@ -25,7 +25,7 @@ connection.query(
 );
 
 // insert data
-connection.query(
+pool.query(
   'INSERT INTO `testdb`.`user` (`name`, `age`) VALUES ("hoge", 20), ("huga", 22), ("piyo", 24)',
   function(err, results) {
     console.log(err, results); // results contains rows returned by server
@@ -33,7 +33,7 @@ connection.query(
 );
 
 // simple query
-connection.query(
+pool.query(
   'SELECT * FROM `testdb`.`user` WHERE `name` = "huga"',
   function(err, results, fields) {
     console.log(results); // results contains rows returned by server
