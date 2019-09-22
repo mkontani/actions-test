@@ -53,16 +53,17 @@ jobs:
       mysql:
         image: mysql
         env:
-          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
         # will assign a random free host port
         - 3306/tcp
 
     steps:
-#    - name: cli query test
-#      run: |
-#        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -p'rootpass' -h127.0.0.1 -e 'CREATE DATABASE sampledb;'
-#      working-directory: ./mysql
+    - name: cli query test
+      run: |
+        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -p'rootpass' -h127.0.0.1 -e 'CREATE DATABASE sampledb;'
+      working-directory: ./mysql
     - uses: actions/checkout@v1     
     - run: npm ci
       working-directory: ./mysql

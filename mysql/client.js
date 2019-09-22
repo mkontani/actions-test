@@ -4,8 +4,7 @@ const mysql = require('mysql2');
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
-  user: 'root',
-  password: 'rootpass'
+  user: 'root'
 });
 
 // create database
@@ -28,7 +27,7 @@ pool.query(
 pool.query(
   'INSERT INTO `testdb`.`user` (`name`, `age`) VALUES ("hoge", 20), ("huga", 22), ("piyo", 24)',
   function(err, results) {
-    console.log(err, results); // results contains rows returned by server
+    console.log(err, results);
   }
 );
 
@@ -36,7 +35,7 @@ pool.query(
 pool.query(
   'SELECT * FROM `testdb`.`user` WHERE `name` = "huga"',
   function(err, results, fields) {
-    console.log(results); // results contains rows returned by server
+    console.log(err, results, fields); // results contains rows returned by server
     process.exit(0);
   }
 );
