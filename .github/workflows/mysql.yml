@@ -64,7 +64,6 @@ jobs:
       run: |
         mysql -uroot -proot -e 'SHOW DATABASES;'
         mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS sampledb;'
-      working-directory: ./mysql
     - uses: actions/checkout@v1     
     - run: npm ci
       working-directory: ./mysql
