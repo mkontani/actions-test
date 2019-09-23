@@ -1,0 +1,18 @@
+name: Slack Notify
+on:
+  push:
+    branches:
+    - test/slack
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Notify slack
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: pullreminders/slack-action@master
+      with:
+        args: '{\"channel\":\"CNF0B37LZ\",\"text\":\"test\/slack branch is pushed!!\"}'
