@@ -9,46 +9,48 @@ on:
     - master
 
 jobs:
-#  container-job:
-#    runs-on: ubuntu-latest
-#    
-#    # runs all of the steps inside the specified continer rather than on the VM host.  
-#    # Because of this the network configuration changes from host based network to a container network.
-#    container:
-#      image:  node:10.16-jessie
-#
-#    services:
-#      mysql:
-#        image: mysql
-#        env:
-#          MYSQL_USER: mysql
-#          MYSQL_PASSWORD: mysqlpass
-#          MYSQL_DATABASE: testdb
-#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-#        ports:
-#        - 3306/tcp
-#
-#    steps:
-#    - uses: actions/checkout@v1     
-#    - run: npm ci
-#      working-directory: ./mysql
-#    - name: cli query test
-#      run: |
-#        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -e 'CREATE DATABASE sampledb;'
-#      working-directory: ./mysql
-#    - run: npm start
-#      working-directory: ./mysql
-#      env:
-#        # use mysql for the host here because we have specified a container for the job.
-#        # If we were running the job on the VM this would be localhost
-#        MYSQL_HOST: mysql
-#        MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+  container-job:
+    runs-on: ubuntu-latest
+    
+    # runs all of the steps inside the specified continer rather than on the VM host.  
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  node:10.16-jessie
+
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: 'root'
+        ports:
+        - 3306/tcp
+
+    steps:
+    - uses: actions/checkout@v1     
+    - name: install mysql-client
+      run: sudo apt-get -y install mysql-client
+    - run: npm ci
+      working-directory: ./mysql
+    - name: cli query test
+      run: |
+        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -proot -e 'CREATE DATABASE sampledb;'
+      working-directory: ./mysql
+    - run: npm start
+      working-directory: ./mysql
+      env:
+        # use mysql for the host here because we have specified a container for the job.
+        # If we were running the job on the VM this would be localhost
+        MYSQL_HOST: mysql
+        MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
 
 # Runs all steps on the VM
 # The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
   vm-job:
     runs-on: ubuntu-latest
 
+# MySQL Server is built in images. So use VM's insterd of container with service.
+# Software in VM for github actions: https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions
 #    services:
 #      mysql:
 #        image: mysql:5.7
