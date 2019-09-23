@@ -1,8 +1,10 @@
 # actions-test
 For github acitons tests (auto dev ops on github.)
 
-![https://launch-editor.github.com/actions?workflowID=CI&event=push&nwo=mkontani%2Factions-test](https://github.com/mkontani/actions-test/workflows/CI/badge.svg)
-![https://launch-editor.github.com/actions?workflowID=Greetings&event=pull_request&nwo=mkontani%2Factions-test](https://github.com/mkontani/actions-test/workflows/Greetings/badge.svg)
+[![](https://github.com/mkontani/actions-test/workflows/CI/badge.svg)](https://launch-editor.github.com/actions?workflowID=CI&event=push&nwo=mkontani%2Factions-test)
+[![](https://github.com/mkontani/actions-test/workflows/Greetings/badge.svg)](https://launch-editor.github.com/actions?workflowID=Greetings&event=pull_request&nwo=mkontani%2Factions-test)
+[![](https://github.com/mkontani/actions-test/workflows/.github/workflows/mysql.yml/badge.svg)](https://launch-editor.github.com/actions?workflowID=MySQL%20Service%20Example&event=push&nwo=mkontani%2Factions-test)
+[![](https://github.com/mkontani/actions-test/workflows/MySQL%20Service%20Example/badge.svg)](https://launch-editor.github.com/actions?workflowID=MySQL%20Service%20Example&event=push&nwo=mkontani%2Factions-test)
 
 # References
 
