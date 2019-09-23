@@ -4,7 +4,8 @@ const mysql = require('mysql2');
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
-  user: 'root'
+  user: 'root',
+  password: 'root'
 });
 
 // create database
