@@ -6,6 +6,10 @@ For github acitons tests (auto dev ops on github.)
 [![](https://github.com/mkontani/actions-test/workflows/.github/workflows/mysql.yml/badge.svg)](https://launch-editor.github.com/actions?workflowID=MySQL%20Service%20Example&event=push&nwo=mkontani%2Factions-test)
 [![](https://github.com/mkontani/actions-test/workflows/MySQL%20Service%20Example/badge.svg)](https://launch-editor.github.com/actions?workflowID=MySQL%20Service%20Example&event=push&nwo=mkontani%2Factions-test)
 
+# Topics
+- [Use MySQL](https://github.com/mkontani/actions-test/tree/master/mysql)
+- [Slack Notification](https://github.com/mkontani/actions-test/blob/test/slack/.github/workflows/slack.yml)
+
 # References
 
 - https://help.github.com/en/categories/automating-your-workflow-with-github-actions
