@@ -15,11 +15,11 @@ jobs:
     # runs all of the steps inside the specified continer rather than on the VM host.  
     # Because of this the network configuration changes from host based network to a container network.
     container:
-      image: docker
+      image:  node:10.16-jessie
 
     services:
       mysql:
-        image: mysql
+        image: mysql:5.7
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: 'root'
@@ -28,13 +28,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1     
-    - run: docker run -it node npm ci
+    - run: npm ci
       working-directory: ./mysql
-    - name: cli query test
-      run: |
-        docker run -it --rm mysql mysql -P${{ job.services.mysql.ports[3306] }} -hmysql -uroot -proot -e 'CREATE DATABASE sampledb;'
-      working-directory: ./mysql
-    - run: docker run -it --rm node npm start
+#    - name: cli query test
+#      run: |
+#        mysql -P${{ job.services.mysql.ports[3306] }} -uroot -proot -e 'CREATE DATABASE sampledb;'
+    - run: npm start
       working-directory: ./mysql
       env:
         # use mysql for the host here because we have specified a container for the job.
